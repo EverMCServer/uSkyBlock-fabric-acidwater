@@ -1,5 +1,6 @@
 package com.evermc.everisland.fabric.acidwater
 
+import eu.pb4.polymer.core.api.utils.PolymerObject
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.FluidBlock
@@ -20,7 +21,7 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.world.*
 import java.util.*
 
-abstract class AcidFluid: FlowableFluid() {
+abstract class AcidFluid: FlowableFluid(), PolymerObject {
     override fun getFlowing(): Fluid {
         return Acid.FLOWING_ACID
     }
