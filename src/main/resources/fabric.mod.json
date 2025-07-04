@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "acid",
+  "version": "${version}",
+
+  "name": "Acid",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "All-Rights-Reserved",
+  "icon": "assets/acid/icon.png",
+
+  "environment": "server",
+  "entrypoints": {
+    "fabric-datagen": [
+      "com.evermc.everisland.fabric.acidwater.client.AcidDataGenerator"
+    ],
+    "main": [
+      "com.evermc.everisland.fabric.acidwater.Acid"
+    ]
+  },
+
+  "mixins": [
+    "acid.mixins.json"
+    ,{
+      "config": "acid.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-language-kotlin": ">=${kotlin_loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

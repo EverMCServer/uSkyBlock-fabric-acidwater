@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.evermc.everisland.fabric.acidwater.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BlockEventS2CPacketMixin",
+    "BlockUpdateS2CPacketMixin",
+    "ChunkDataS2CPacketMixin",
+    "ChunkDeltaUpdateS2CPacketMixin",
+    "EntityEquipmentUpdateS2CPacketMixin",
+    "InventoryS2CPacketMixin",
+    "ScreenHandlerSlotUpdateS2CPacketMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
+
+
