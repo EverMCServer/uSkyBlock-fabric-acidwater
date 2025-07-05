@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.minecraft.block.Block
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.entity.EquipmentSlot
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FlowableFluid
 import net.minecraft.item.Item
 import net.minecraft.registry.Registries
@@ -15,19 +16,11 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.Identifier
+import net.minecraft.world.World
 
 
 @Environment(EnvType.SERVER)
 class Acid : ModInitializer {
-    companion object {
-        val namespace = "acid"
-
-        lateinit var ACID: FlowableFluid
-        lateinit var FLOWING_ACID: FlowableFluid
-        lateinit var ACID_BUCKET: Item
-        lateinit var ACID_BLOCK: Block
-        lateinit var ANTI_ACID: RegistryKey<Enchantment>
-    }
 
     override fun onInitialize() {
         ACID = Registry.register(Registries.FLUID, Identifier.of(namespace, "acid"), AcidFluid.Still())
@@ -51,26 +44,40 @@ class Acid : ModInitializer {
             if (world.isRaining) {  // 判断当前世界是否下雨
                 for (player in world.players) { // 判断玩家是否在天空下且在雨中
                     if (world.isSkyVisible(player.blockPos)) {
-                        var damage = 1.0f
-
-                        listOf(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET).forEach { slot ->
-                            val armor = player.getEquippedStack(slot)
-                            if (!armor.isEmpty) {
-                                if (armor.hasEnchantments()) {
-                                    armor.enchantments.enchantments.map { it.key.get() }.find { it == Acid.ANTI_ACID }?.run {
-                                        if (world.random.nextInt(400) == 0) {
-                                            armor.damage(1, player, slot)
-                                        }
-                                        damage -= 0.25f
-                                    } ?: return@forEach
-                                }
-                            }
-                        }
-
-                        player.damage(world.damageSources.magic(), damage)
+                        acidPlayer(player, world)
                     }
                 }
             }
+        }
+    }
+
+    companion object {
+        val namespace = "acid"
+
+        lateinit var ACID: FlowableFluid
+        lateinit var FLOWING_ACID: FlowableFluid
+        lateinit var ACID_BUCKET: Item
+        lateinit var ACID_BLOCK: Block
+        lateinit var ANTI_ACID: RegistryKey<Enchantment>
+
+        fun acidPlayer(player: PlayerEntity, world: World) {
+            var damage = 1.0f
+
+            listOf(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET).forEach { slot ->
+                val armor = player.getEquippedStack(slot)
+                if (!armor.isEmpty) {
+                    if (armor.hasEnchantments()) {
+                        armor.enchantments.enchantments.map { it.key.get() }.find { it == Acid.ANTI_ACID }?.run {
+                            if (world.random.nextInt(400) == 0) {
+                                armor.damage(1, player, slot)
+                            }
+                            damage -= 0.25f
+                        } ?: return@forEach
+                    }
+                }
+            }
+
+            player.damage(world.damageSources.magic(), damage)
         }
     }
 }
