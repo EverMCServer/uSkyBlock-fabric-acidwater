@@ -1,5 +1,7 @@
 package com.evermc.everisland.fabric.acidwater
 
+import com.google.common.cache.Cache
+import com.google.common.cache.CacheBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.api.ModInitializer
@@ -17,6 +19,8 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.Identifier
 import net.minecraft.world.World
+import java.time.Duration
+import java.time.temporal.ChronoUnit
 
 
 @Environment(EnvType.SERVER)
@@ -60,7 +64,17 @@ class Acid : ModInitializer {
         lateinit var ACID_BLOCK: Block
         lateinit var ANTI_ACID: RegistryKey<Enchantment>
 
+        val antiAcidBlockEffectMap: Cache<PlayerEntity, Long> = CacheBuilder.newBuilder() //player: expire time
+            .maximumSize(200)
+            .expireAfterWrite(Duration.of(5, ChronoUnit.SECONDS)) //this is just use for auto clean
+            .build()
+
         fun acidPlayer(player: PlayerEntity, world: World) {
+            val checkBlockEffectResult = antiAcidBlockEffectMap.getIfPresent(player)
+            if (checkBlockEffectResult != null) {
+                if (checkBlockEffectResult >= System.currentTimeMillis()) return
+            }
+
             var damage = 1.0f
 
             listOf(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET).forEach { slot ->
@@ -77,7 +91,7 @@ class Acid : ModInitializer {
                 }
             }
 
-            player.damage(world.damageSources.magic(), damage)
+            if (damage > 0f) player.damage(world.damageSources.magic(), damage)
         }
     }
 }

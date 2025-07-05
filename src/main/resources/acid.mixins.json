@@ -1,9 +1,11 @@
 {
-  "required": false,
+  "required": true,
   "minVersion": "0.8",
   "package": "com.evermc.everisland.fabric.acidwater.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "mixins": [
+    "ConduitBlockEntityMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   },
