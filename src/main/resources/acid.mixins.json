@@ -4,7 +4,8 @@
   "package": "com.evermc.everisland.fabric.acidwater.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ConduitBlockEntityMixin"
+    "ConduitBlockEntityMixin",
+    "FluidBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

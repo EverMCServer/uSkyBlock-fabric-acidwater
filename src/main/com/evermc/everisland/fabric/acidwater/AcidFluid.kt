@@ -109,7 +109,7 @@ abstract class AcidFluid: FlowableFluid(), PolymerObject {
         fluid: Fluid,
         direction: Direction
     ): Boolean {
-        return direction == Direction.DOWN && !fluid.isIn(FluidTags.WATER)
+        return direction == Direction.DOWN && !fluid.isIn(FluidTags.WATER) && !fluid.isIn(FluidTags.LAVA)
     }
 
     override fun getBlastResistance(): Float {
