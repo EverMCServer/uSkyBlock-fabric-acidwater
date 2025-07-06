@@ -38,6 +38,18 @@ public abstract class FluidBlockMixin {
                         world.setBlockState(pos, block.getDefaultState());
                         this.playExtinguishSound(world, pos);
                         cir.setReturnValue(false);
+                        return;
+                    }
+                }
+            } else if (this.fluid == Acid.ACID || this.fluid == Acid.FLOWING_ACID) {
+                for (Direction direction : FLOW_DIRECTIONS) {
+                    BlockPos waterPos = pos.offset(direction.getOpposite());
+                    if (world.getFluidState(waterPos).isIn(FluidTags.WATER)) {
+                        BlockState blockState = Acid.ACID_BLOCK.getStateWithProperties(world.getBlockState(waterPos));
+                        world.setBlockState(waterPos, blockState);
+                        this.playExtinguishSound(world, waterPos);
+                        cir.setReturnValue(true);
+                        return;
                     }
                 }
             }
