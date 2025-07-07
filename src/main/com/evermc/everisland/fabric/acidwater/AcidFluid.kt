@@ -91,7 +91,7 @@ abstract class AcidFluid: FlowableFluid(), PolymerObject {
     }
 
     override fun matchesType(fluid: Fluid): Boolean {
-        return fluid === Acid.ACID || fluid === Acid.FLOWING_ACID
+        return fluid == Acid.ACID || fluid == Acid.FLOWING_ACID
     }
 
     public override fun getLevelDecreasePerBlock(world: WorldView): Int {
@@ -109,7 +109,7 @@ abstract class AcidFluid: FlowableFluid(), PolymerObject {
         fluid: Fluid,
         direction: Direction
     ): Boolean {
-        return direction == Direction.DOWN && !fluid.isIn(FluidTags.WATER) && !fluid.isIn(FluidTags.LAVA)
+        return direction == Direction.DOWN && (fluid != Acid.ACID && fluid != Acid.FLOWING_ACID)
     }
 
     override fun getBlastResistance(): Float {
