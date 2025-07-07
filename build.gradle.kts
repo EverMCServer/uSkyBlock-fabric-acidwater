@@ -38,7 +38,7 @@ loom {
     splitEnvironmentSourceSets()
 
     mods {
-        register("acid") {
+        register("acidwater") {
             sourceSet("main")
             sourceSet("client")
         }

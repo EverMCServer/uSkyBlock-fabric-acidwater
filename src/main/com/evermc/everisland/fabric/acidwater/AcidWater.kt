@@ -56,7 +56,7 @@ class AcidWater : ModInitializer {
     }
 
     companion object {
-        val namespace = "acid"
+        val namespace = "acidwater"
 
         lateinit var ACID: FlowableFluid
         lateinit var FLOWING_ACID: FlowableFluid
