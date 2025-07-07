@@ -17,7 +17,7 @@
       "com.evermc.everisland.fabric.acidwater.client.AcidDataGenerator"
     ],
     "main": [
-      "com.evermc.everisland.fabric.acidwater.Acid"
+      "com.evermc.everisland.fabric.acidwater.AcidWater"
     ]
   },
 

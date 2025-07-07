@@ -1,6 +1,6 @@
 package com.evermc.everisland.fabric.acidwater
 
-import com.evermc.everisland.fabric.acidwater.Acid.Companion.ACID
+import com.evermc.everisland.fabric.acidwater.AcidWater.Companion.ACID
 import eu.pb4.polymer.core.api.block.PolymerBlock
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -30,7 +30,7 @@ class AcidFluidBlock: FluidBlock(ACID,
 
     override fun onEntityCollision(state: BlockState?, world: World, pos: BlockPos?, entity: Entity) {
         if (entity is PlayerEntity) {
-            Acid.acidPlayer(entity, world)
+            AcidWater.acidPlayer(entity, world)
         }
     }
 }

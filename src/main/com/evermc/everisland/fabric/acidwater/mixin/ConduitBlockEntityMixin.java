@@ -1,6 +1,6 @@
 package com.evermc.everisland.fabric.acidwater.mixin;
 
-import com.evermc.everisland.fabric.acidwater.Acid;
+import com.evermc.everisland.fabric.acidwater.AcidWater;
 import net.minecraft.block.entity.ConduitBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -36,7 +36,7 @@ public class ConduitBlockEntityMixin {
         if (!list.isEmpty()) {
             for (PlayerEntity playerEntity : list) {
                 if (pos.isWithinDistance(playerEntity.getBlockPos(), j * 2)) {
-                    Acid.Companion.getAntiAcidBlockEffectMap().put(playerEntity, System.currentTimeMillis() + 2000);
+                    AcidWater.Companion.getAntiAcidBlockEffectMap().put(playerEntity, System.currentTimeMillis() + 2000);
                 }
             }
         }

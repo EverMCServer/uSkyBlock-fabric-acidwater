@@ -1,6 +1,6 @@
 package com.evermc.everisland.fabric.acidwater.mixin;
 
-import com.evermc.everisland.fabric.acidwater.Acid;
+import com.evermc.everisland.fabric.acidwater.AcidWater;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -33,7 +33,7 @@ public abstract class FluidBlockMixin {
             if (this.fluid.isIn(FluidTags.LAVA)) {
                 for (Direction direction : FLOW_DIRECTIONS) {
                     BlockPos blockPos = pos.offset(direction.getOpposite());
-                    if (world.getFluidState(blockPos).isOf(Acid.ACID) || world.getFluidState(blockPos).isOf(Acid.FLOWING_ACID)) {
+                    if (world.getFluidState(blockPos).isOf(AcidWater.ACID) || world.getFluidState(blockPos).isOf(AcidWater.FLOWING_ACID)) {
                         Block block = world.getFluidState(pos).isStill() ? Blocks.OBSIDIAN : Blocks.COBBLESTONE;
                         world.setBlockState(pos, block.getDefaultState());
                         this.playExtinguishSound(world, pos);
@@ -41,11 +41,11 @@ public abstract class FluidBlockMixin {
                         return;
                     }
                 }
-            } else if (this.fluid == Acid.ACID || this.fluid == Acid.FLOWING_ACID) {
+            } else if (this.fluid == AcidWater.ACID || this.fluid == AcidWater.FLOWING_ACID) {
                 for (Direction direction : FLOW_DIRECTIONS) {
                     BlockPos waterPos = pos.offset(direction.getOpposite());
                     if (world.getFluidState(waterPos).isIn(FluidTags.WATER)) {
-                        BlockState blockState = Acid.ACID_BLOCK.getStateWithProperties(world.getBlockState(waterPos));
+                        BlockState blockState = AcidWater.ACID_BLOCK.getStateWithProperties(world.getBlockState(waterPos));
                         world.setBlockState(waterPos, blockState);
                         this.playExtinguishSound(world, waterPos);
                         cir.setReturnValue(true);

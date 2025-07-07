@@ -24,7 +24,7 @@ import java.time.temporal.ChronoUnit
 
 
 @Environment(EnvType.SERVER)
-class Acid : ModInitializer {
+class AcidWater : ModInitializer {
 
     override fun onInitialize() {
         ACID = Registry.register(Registries.FLUID, Identifier.of(namespace, "acid"), AcidFluid.Still())
@@ -81,7 +81,7 @@ class Acid : ModInitializer {
                 val armor = player.getEquippedStack(slot)
                 if (!armor.isEmpty) {
                     if (armor.hasEnchantments()) {
-                        armor.enchantments.enchantments.map { it.key.get() }.find { it == Acid.ANTI_ACID }?.run {
+                        armor.enchantments.enchantments.map { it.key.get() }.find { it == AcidWater.ANTI_ACID }?.run {
                             if (world.random.nextInt(400) == 0) {
                                 armor.damage(1, player, slot)
                             }

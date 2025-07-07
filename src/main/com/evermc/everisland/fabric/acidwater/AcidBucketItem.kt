@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 
-class AcidBucketItem: PolymerItem, BucketItem(Acid.ACID, Settings().recipeRemainder(Items.BUCKET).maxCount(1)) {
+class AcidBucketItem: PolymerItem, BucketItem(AcidWater.ACID, Settings().recipeRemainder(Items.BUCKET).maxCount(1)) {
     override fun getPolymerItem(p0: ItemStack?, p1: ServerPlayerEntity?): Item {
         return Items.WATER_BUCKET
     }

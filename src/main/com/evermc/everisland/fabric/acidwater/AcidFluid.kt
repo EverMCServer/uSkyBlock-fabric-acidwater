@@ -10,7 +10,6 @@ import net.minecraft.fluid.FluidState
 import net.minecraft.item.Item
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleTypes
-import net.minecraft.registry.tag.FluidTags
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
@@ -23,15 +22,15 @@ import java.util.*
 
 abstract class AcidFluid: FlowableFluid(), PolymerObject {
     override fun getFlowing(): Fluid {
-        return Acid.FLOWING_ACID
+        return AcidWater.FLOWING_ACID
     }
 
     override fun getStill(): Fluid {
-        return Acid.ACID
+        return AcidWater.ACID
     }
 
     override fun getBucketItem(): Item {
-        return Acid.ACID_BUCKET
+        return AcidWater.ACID_BUCKET
     }
 
     public override fun randomDisplayTick(world: World, pos: BlockPos, state: FluidState, random: Random) {
@@ -87,11 +86,11 @@ abstract class AcidFluid: FlowableFluid(), PolymerObject {
     }
 
     public override fun toBlockState(state: FluidState): BlockState {
-        return Acid.ACID_BLOCK.defaultState.with(FluidBlock.LEVEL, getBlockStateLevel(state)) as BlockState
+        return AcidWater.ACID_BLOCK.defaultState.with(FluidBlock.LEVEL, getBlockStateLevel(state)) as BlockState
     }
 
     override fun matchesType(fluid: Fluid): Boolean {
-        return fluid == Acid.ACID || fluid == Acid.FLOWING_ACID
+        return fluid == AcidWater.ACID || fluid == AcidWater.FLOWING_ACID
     }
 
     public override fun getLevelDecreasePerBlock(world: WorldView): Int {
@@ -109,7 +108,7 @@ abstract class AcidFluid: FlowableFluid(), PolymerObject {
         fluid: Fluid,
         direction: Direction
     ): Boolean {
-        return direction == Direction.DOWN && (fluid != Acid.ACID && fluid != Acid.FLOWING_ACID)
+        return direction == Direction.DOWN && (fluid != AcidWater.ACID && fluid != AcidWater.FLOWING_ACID)
     }
 
     override fun getBlastResistance(): Float {
