@@ -81,7 +81,7 @@ class AcidWater : ModInitializer {
                 val armor = player.getEquippedStack(slot)
                 if (!armor.isEmpty) {
                     if (armor.hasEnchantments()) {
-                        armor.enchantments.enchantments.map { it.key.get() }.find { it == AcidWater.ANTI_ACID }?.run {
+                        armor.enchantments.enchantments.map { it.key.get() }.find { it == ANTI_ACID }?.run {
                             if (world.random.nextInt(400) == 0) {
                                 armor.damage(1, player, slot)
                             }
