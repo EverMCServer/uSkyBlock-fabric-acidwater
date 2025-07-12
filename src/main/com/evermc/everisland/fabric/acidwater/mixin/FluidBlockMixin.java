@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.fluid.FlowableFluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -44,7 +45,7 @@ public abstract class FluidBlockMixin {
             } else if (this.fluid == AcidWater.ACID || this.fluid == AcidWater.FLOWING_ACID) {
                 for (Direction direction : FLOW_DIRECTIONS) {
                     BlockPos waterPos = pos.offset(direction.getOpposite());
-                    if (world.getFluidState(waterPos).isIn(FluidTags.WATER)) {
+                    if (world.getFluidState(waterPos).isOf(Fluids.WATER) || world.getFluidState(waterPos).isOf(Fluids.FLOWING_WATER)) {
                         BlockState blockState = AcidWater.ACID_BLOCK.getStateWithProperties(world.getBlockState(waterPos));
                         world.setBlockState(waterPos, blockState);
                         this.playExtinguishSound(world, waterPos);
