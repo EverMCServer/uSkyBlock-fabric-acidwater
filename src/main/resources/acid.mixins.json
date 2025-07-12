@@ -6,8 +6,7 @@
   "mixins": [
     "ConduitBlockEntityMixin",
     "FluidBlockMixin",
-    "FluidStateMixin",
-    "WaterloggableMixin"
+    "FluidStateMixin"
   ],
   "injectors": {
     "defaultRequire": 1
