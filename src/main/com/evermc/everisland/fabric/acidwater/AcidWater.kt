@@ -10,6 +10,7 @@ import net.minecraft.block.Block
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.vehicle.BoatEntity
 import net.minecraft.fluid.FlowableFluid
 import net.minecraft.item.Item
 import net.minecraft.registry.Registries
@@ -70,6 +71,10 @@ class AcidWater : ModInitializer {
             .build()
 
         fun acidPlayer(player: PlayerEntity, world: World) {
+            if (player.vehicle != null) {
+                if (player.vehicle is BoatEntity) return
+            }
+
             val checkBlockEffectResult = antiAcidBlockEffectMap.getIfPresent(player)
             if (checkBlockEffectResult != null) {
                 if (checkBlockEffectResult >= System.currentTimeMillis()) return
