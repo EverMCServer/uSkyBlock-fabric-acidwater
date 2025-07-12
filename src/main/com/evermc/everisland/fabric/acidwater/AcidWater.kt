@@ -71,7 +71,7 @@ class AcidWater : ModInitializer {
             .build()
 
         fun acidPlayer(player: PlayerEntity, world: World) {
-            if (player.vehicle != null) {
+            if (player.vehicle != null && !world.isRaining) {
                 if (player.vehicle is BoatEntity) return
             }
 

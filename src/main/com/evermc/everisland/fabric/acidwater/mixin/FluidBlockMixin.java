@@ -45,7 +45,7 @@ public abstract class FluidBlockMixin {
             } else if (this.fluid == AcidWater.ACID || this.fluid == AcidWater.FLOWING_ACID) {
                 for (Direction direction : FLOW_DIRECTIONS) {
                     BlockPos waterPos = pos.offset(direction.getOpposite());
-                    if (world.getFluidState(waterPos).isOf(Fluids.WATER) || world.getFluidState(waterPos).isOf(Fluids.FLOWING_WATER)) {
+                    if ((world.getFluidState(waterPos).isOf(Fluids.WATER) || world.getFluidState(waterPos).isOf(Fluids.FLOWING_WATER)) && world.getBlockState(waterPos).isOf(Blocks.WATER)) {
                         BlockState blockState = AcidWater.ACID_BLOCK.getStateWithProperties(world.getBlockState(waterPos));
                         world.setBlockState(waterPos, blockState);
                         this.playExtinguishSound(world, waterPos);
