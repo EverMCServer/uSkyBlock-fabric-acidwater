@@ -10,6 +10,7 @@ import net.minecraft.fluid.FluidState
 import net.minecraft.item.Item
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.ParticleTypes
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
@@ -108,7 +109,7 @@ abstract class AcidFluid: FlowableFluid(), PolymerObject {
         fluid: Fluid,
         direction: Direction
     ): Boolean {
-        return direction == Direction.DOWN && (fluid != AcidWater.ACID && fluid != AcidWater.FLOWING_ACID)
+        return direction == Direction.DOWN && (fluid != AcidWater.ACID && fluid != AcidWater.FLOWING_ACID) && !fluid.isIn(FluidTags.LAVA)
     }
 
     override fun getBlastResistance(): Float {

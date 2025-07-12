@@ -28,33 +28,56 @@ public abstract class FluidBlockMixin {
     @Shadow
     protected abstract void playExtinguishSound(WorldAccess world, BlockPos pos);
 
-    @Inject(method = "receiveNeighborFluids", at = @At("RETURN"), cancellable = true) //inject before "return true"
+    @Inject(method = "receiveNeighborFluids",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/fluid/FlowableFluid;isIn(Lnet/minecraft/registry/tag/TagKey;)Z"
+            ),
+            cancellable = true
+    ) //inject before "return true"
     private void inReceiveNeighborFluids(World world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValue()){ // when return is true
-            if (this.fluid.isIn(FluidTags.LAVA)) {
-                for (Direction direction : FLOW_DIRECTIONS) {
-                    BlockPos blockPos = pos.offset(direction.getOpposite());
-                    if (world.getFluidState(blockPos).isOf(AcidWater.ACID) || world.getFluidState(blockPos).isOf(AcidWater.FLOWING_ACID)) {
-                        Block block = world.getFluidState(pos).isStill() ? Blocks.OBSIDIAN : Blocks.COBBLESTONE;
-                        world.setBlockState(pos, block.getDefaultState());
-                        this.playExtinguishSound(world, pos);
-                        cir.setReturnValue(false);
-                        return;
-                    }
-                }
-            } else if (this.fluid == AcidWater.ACID || this.fluid == AcidWater.FLOWING_ACID) {
-                for (Direction direction : FLOW_DIRECTIONS) {
-                    BlockPos waterPos = pos.offset(direction.getOpposite());
-                    if ((world.getFluidState(waterPos).isOf(Fluids.WATER) || world.getFluidState(waterPos).isOf(Fluids.FLOWING_WATER)) && world.getBlockState(waterPos).isOf(Blocks.WATER)) {
-                        BlockState blockState = AcidWater.ACID_BLOCK.getStateWithProperties(world.getBlockState(waterPos));
-                        world.setBlockState(waterPos, blockState);
-                        this.playExtinguishSound(world, waterPos);
-                        cir.setReturnValue(true);
-                        return;
-                    }
+        if (this.fluid.isIn(FluidTags.LAVA)) {
+            for (Direction direction : FLOW_DIRECTIONS) {
+                BlockPos blockPos = pos.offset(direction.getOpposite());
+                boolean bl = world.getBlockState(pos.down()).isOf(Blocks.SOUL_SOIL);
+
+                if (world.getFluidState(blockPos).isOf(AcidWater.ACID) || world.getFluidState(blockPos).isOf(AcidWater.FLOWING_ACID)) {
+                    Block block = world.getFluidState(pos).isStill() ? Blocks.OBSIDIAN : Blocks.COBBLESTONE;
+                    world.setBlockState(pos, block.getDefaultState());
+                    this.playExtinguishSound(world, pos);
+                    cir.setReturnValue(false);
+                    cir.cancel();
+                    return;
+                }else if (world.getFluidState(blockPos).getFluid().getRegistryEntry().isIn(FluidTags.WATER)) {
+                    Block block = world.getFluidState(pos).isStill() ? Blocks.OBSIDIAN : Blocks.COBBLESTONE;
+                    world.setBlockState(pos, block.getDefaultState());
+                    this.playExtinguishSound(world, pos);
+                    cir.setReturnValue(false);
+                    cir.cancel();
+                    return;
+                }else if (bl && world.getBlockState(blockPos).isOf(Blocks.BLUE_ICE)) {
+                    world.setBlockState(pos, Blocks.BASALT.getDefaultState());
+                    this.playExtinguishSound(world, pos);
+                    cir.setReturnValue(false);
+                    cir.cancel();
+                    return;
                 }
             }
-            cir.setReturnValue(true);
+        } else if (this.fluid == AcidWater.ACID || this.fluid == AcidWater.FLOWING_ACID) {
+            for (Direction direction : FLOW_DIRECTIONS) {
+                BlockPos waterPos = pos.offset(direction.getOpposite());
+                if ((world.getFluidState(waterPos).isOf(Fluids.WATER) || world.getFluidState(waterPos).isOf(Fluids.FLOWING_WATER)) && world.getBlockState(waterPos).isOf(Blocks.WATER)) {
+                    BlockState blockState = AcidWater.ACID_BLOCK.getStateWithProperties(world.getBlockState(waterPos));
+                    world.setBlockState(waterPos, blockState);
+                    this.playExtinguishSound(world, waterPos);
+                    cir.setReturnValue(true);
+                    cir.cancel();
+                    return;
+                }
+            }
         }
+
+        cir.setReturnValue(true);
+        cir.cancel();
     }
 }
