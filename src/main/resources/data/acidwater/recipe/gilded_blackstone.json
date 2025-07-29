@@ -7,10 +7,10 @@
     ],
     "key": {
         "#": {
-            "item": "minecraft:gold_nugget"
+            "item": "minecraft:blackstone"
         },
         "B": {
-            "item": "minecraft:blackstone"
+            "item": "minecraft:gold_block"
         }
     },
     "result": {

@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "DQD",
+        "QBQ",
+        "DQD"
+    ],
+    "key": {
+        "D": {
+            "item": "minecraft:diamond"
+        },
+        "B": {
+            "item": "minecraft:dripstone_block"
+        },
+        "Q": {
+            "item": "minecraft:quartz"
+        }
+    },
+    "result": {
+        "id": "minecraft:budding_amethyst",
+        "count": 1
+    }
+}

@@ -7,14 +7,14 @@
     ],
     "key": {
         "#": {
-            "item": "minecraft:netherrack"
+            "item": "minecraft:deepslate"
         },
         "B": {
-            "item": "minecraft:gold_block"
+            "item": "minecraft:coal_block"
         }
     },
     "result": {
-        "id": "minecraft:nether_gold_ore",
+        "id": "minecraft:deepslate_coal_ore",
         "count": 1
     }
 }

@@ -10,11 +10,11 @@
             "item": "minecraft:netherrack"
         },
         "B": {
-            "item": "minecraft:gold_block"
+            "item": "minecraft:quartz_block"
         }
     },
     "result": {
-        "id": "minecraft:nether_gold_ore",
+        "id": "minecraft:nether_quartz_ore",
         "count": 1
     }
 }

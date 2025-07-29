@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "CDC",
+        "IOI",
+        "III"
+    ],
+    "key": {
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "C": {
+            "item": "minecraft:copper_ingot"
+        },
+        "D": {
+            "item": "minecraft:diamond"
+        },
+        "O": {
+            "item": "minecraft:egg"
+        }
+    },
+    "result": {
+        "id": "minecraft:trial_spawner",
+        "count": 1
+    }
+}
