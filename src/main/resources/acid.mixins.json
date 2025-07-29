@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ConduitBlockEntityMixin",
+    "DrownedEntityMixin",
     "FluidBlockMixin",
     "FluidStateMixin"
   ],
