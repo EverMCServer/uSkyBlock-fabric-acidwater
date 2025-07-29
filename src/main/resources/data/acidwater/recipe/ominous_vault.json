@@ -26,13 +26,14 @@
             "ominous": "true"
           },
           "minecraft:block_entity_data":{
+            "id": "minecraft:vault",
             "config": {
+              "loot_table":"minecraft:chests/trial_chambers/reward_ominous",
               "key_item": {
                 "count": 1,
                 "id": "minecraft:ominous_trial_key"
               }
-            },
-            "id": "minecraft:vault"
+            }
           }
         },
         "id": "minecraft:vault",
