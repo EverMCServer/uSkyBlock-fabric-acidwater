@@ -20,7 +20,22 @@
         }
     },
     "result": {
-        "id": "minecraft:vault[enchantments={levels:{looting:10}}]",
+        "components": {
+          "minecraft:custom_name": "不祥宝库",
+          "minecraft:block_state":{
+            "ominous": "true"
+          },
+          "minecraft:block_entity_data":{
+            "config": {
+              "key_item": {
+                "count": 1,
+                "id": "minecraft:ominous_trial_key"
+              }
+            },
+            "id": "minecraft:vault"
+          }
+        },
+        "id": "minecraft:vault",
         "count": 1
     }
 }
