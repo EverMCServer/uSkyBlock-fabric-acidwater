@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:nether_wart_block"
+        },
+        {
+            "item": "minecraft:netherrack"
+        }
+    ],
+    "result": {
+        "id": "minecraft:crimson_nylium",
+        "count": 2
+    }
+}
