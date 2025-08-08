@@ -9,6 +9,7 @@ import net.minecraft.block.MapColor
 import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.vehicle.BoatEntity
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -30,7 +31,9 @@ class AcidFluidBlock: FluidBlock(ACID,
 
     override fun onEntityCollision(state: BlockState?, world: World, pos: BlockPos?, entity: Entity) {
         if (entity is PlayerEntity) {
-            AcidWater.acidPlayer(entity, world)
+            if (entity.vehicle == null || entity.vehicle !is BoatEntity) {
+                AcidWater.acidPlayer(entity)
+            }
         }
     }
 }
