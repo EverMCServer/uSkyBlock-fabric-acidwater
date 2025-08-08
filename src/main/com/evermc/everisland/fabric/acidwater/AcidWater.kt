@@ -96,6 +96,7 @@ class AcidWater : ModInitializer {
                             if (armor.hasEnchantments()) {
                                 // Get unbreaking level of the armor
                                 val unbreaking = armor.enchantments.enchantments.find { it.key==UNBREAKING }?.let{ armor.enchantments.getLevel(it) }?:0
+                                print("Unbreaking = $unbreaking")
                                 if (player.world.random.nextInt(unbreaking+1)==0) {
                                     // Damage armor
                                     armor.damage(1, player, slot)
