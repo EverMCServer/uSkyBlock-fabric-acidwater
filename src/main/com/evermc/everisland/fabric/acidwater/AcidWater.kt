@@ -98,6 +98,7 @@ class AcidWater : ModInitializer {
                             if (unbreaking!=null) {
                                 level = armor.enchantments.getLevel(unbreaking)
                             }
+                            print("Unbreaking level: $level\n")
                             if (player.world.random.nextInt(level+1)==0) {
                                 // Damage armor
                                 armor.damage(1, player, slot)
