@@ -93,7 +93,7 @@ class AcidWater : ModInitializer {
                             // Damage one random antiacid armor 1 durability
                             val (armor, slot) = antiAcidArmors.random()
                             // Get unbreaking level of the armor
-                            val unbreaking = armor.enchantments.enchantments.find { it.value()==UNBREAKING }
+                            val unbreaking = armor.enchantments.enchantments.find { it.key.get()==UNBREAKING }
                             var level = 0
                             if (unbreaking!=null) {
                                 level = armor.enchantments.getLevel(unbreaking)
