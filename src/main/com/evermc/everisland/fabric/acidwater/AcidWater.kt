@@ -110,17 +110,17 @@ class AcidWater : ModInitializer {
                         val coalStack = player.inventory.main.firstOrNull { it.isOf(Items.COAL) }
                         if (coalStack == null) {
                             player.damage(player.world.damageSources.magic(), 1.0f)
-                        } else if (player.world.random.nextInt(24) == 0) {
-                            // If player has coal, consume one coal with 1/24 chance (12sec per coal on average)
-                            coalStack.decrement(1)
-                            if (coalStack.count <= 0) {
-                                player.inventory.removeOne(coalStack)
+                        } else {
+                            // If player has coal, consume one coal every 24 times (5 coals per minute)
+                            val count = coalCount[player.uuid];
+                            coalCount[player.uuid] = if (count==null) 1 else count+1
+                            if (coalCount[player.uuid]!! >= 24) {
+                                coalCount[player.uuid] = 0
+                                coalStack.decrement(1)
+                                if (coalStack.count <= 0) {
+                                    player.inventory.removeOne(coalStack)
+                                }
                             }
-                            // Play sound for consuming coal
-                            player.world.playSound(
-                                null, player.blockPos, net.minecraft.sound.SoundEvents.ITEM_FIRECHARGE_USE,
-                                net.minecraft.sound.SoundCategory.PLAYERS, 1.0f, 1.0f
-                            )
                         }
                     } else {
                         val n = antiAcidArmors.size
@@ -155,6 +155,7 @@ class AcidWater : ModInitializer {
         val namespace = "acidwater"
         //  uuid -> (#ticks to next damage, in acid now?)
         val dmgTick = HashMap<UUID, Pair<Int, Boolean>>()
+        var coalCount = HashMap<UUID, Int>()
         var toSpread = HashSet<Pair<World, BlockPos>>()
         lateinit var ACID: FlowableFluid
         lateinit var FLOWING_ACID: FlowableFluid
