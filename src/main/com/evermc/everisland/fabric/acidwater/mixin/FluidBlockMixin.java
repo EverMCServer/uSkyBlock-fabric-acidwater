@@ -67,9 +67,7 @@ public abstract class FluidBlockMixin {
             for (Direction direction : FLOW_DIRECTIONS) {
                 BlockPos waterPos = pos.offset(direction.getOpposite());
                 if ((world.getFluidState(waterPos).isOf(Fluids.WATER) || world.getFluidState(waterPos).isOf(Fluids.FLOWING_WATER)) && world.getBlockState(waterPos).isOf(Blocks.WATER)) {
-                    BlockState blockState = AcidWater.ACID_BLOCK.getStateWithProperties(world.getBlockState(waterPos));
-                    world.setBlockState(waterPos, blockState);
-                    this.playExtinguishSound(world, waterPos);
+                    AcidWater.Companion.addToSpreadEntry(world, waterPos);
                     cir.setReturnValue(true);
                     cir.cancel();
                     return;

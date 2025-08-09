@@ -7,11 +7,13 @@ import net.fabricmc.api.Environment
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.minecraft.block.Block
+import net.minecraft.block.Blocks
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.Enchantments.UNBREAKING
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FlowableFluid
+import net.minecraft.fluid.Fluids
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
@@ -20,9 +22,11 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 import java.time.Duration
 import java.time.temporal.ChronoUnit
-import java.util.UUID
+import java.util.*
 
 
 @Environment(EnvType.SERVER)
@@ -43,6 +47,7 @@ class AcidWater : ModInitializer {
         ANTI_ACID = RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(namespace, "anti_acid"))
 
         ServerTickEvents.END_SERVER_TICK.register(::doAcidDamageTick)
+        ServerTickEvents.END_SERVER_TICK.register(::doAcidSpreadTick)
     }
 
     private fun checkAcidRain(server: MinecraftServer) {
@@ -71,6 +76,21 @@ class AcidWater : ModInitializer {
         }
         return ret
     }
+
+    private fun doAcidSpreadTick(server: MinecraftServer) {
+        val cached = toSpread
+        toSpread = HashSet<Pair<World, BlockPos>>()
+        cached.forEach { (world, waterPos) ->
+            if ((world.getFluidState(waterPos).isOf(Fluids.WATER) || world.getFluidState(waterPos).isOf(Fluids.FLOWING_WATER)) && world.getBlockState(waterPos).isOf(Blocks.WATER)) {
+                val blockState = ACID_BLOCK.getStateWithProperties(world.getBlockState(waterPos))
+                world.setBlockState(waterPos, blockState)
+                // Copied from `playExtinguishSound` in `WaterFluid`
+                world.syncWorldEvent(1501, waterPos, 0)
+            }
+        }
+        cached.clear()
+    }
+
     private fun doAcidDamageTick(server: MinecraftServer) {
         checkAcidRain(server)
 
@@ -119,6 +139,7 @@ class AcidWater : ModInitializer {
         val namespace = "acidwater"
         //  uuid -> (#ticks to next damage, in acid now?)
         val dmgTick = HashMap<UUID, Pair<Int, Boolean>>()
+        var toSpread = HashSet<Pair<World, BlockPos>>()
         lateinit var ACID: FlowableFluid
         lateinit var FLOWING_ACID: FlowableFluid
         lateinit var ACID_BUCKET: Item
@@ -130,6 +151,9 @@ class AcidWater : ModInitializer {
             .expireAfterWrite(Duration.of(5, ChronoUnit.SECONDS)) //this is just use for auto clean
             .build()
 
+        fun addToSpreadEntry(world: World, pos: BlockPos) {
+            toSpread.add(Pair(world, pos))
+        }
         fun acidPlayer(player: PlayerEntity) {
             if (player.isSpectator || player.isCreative) return
 
