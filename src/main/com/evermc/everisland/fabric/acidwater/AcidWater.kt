@@ -89,7 +89,7 @@ class AcidWater : ModInitializer {
                     } else {
                         val n = antiAcidArmors.size
                         // This is intended: more antiacid armor, less chance to be damaged
-                        if (player.world.random.nextInt(n) == 0) {
+                        if (player.world.random.nextInt(n*2) == 0) {
                             // Damage one random antiacid armor 1 durability
                             val (armor, slot) = antiAcidArmors.random()
                             // Get unbreaking level of the armor
@@ -98,7 +98,7 @@ class AcidWater : ModInitializer {
                             if (unbreaking!=null) {
                                 level = armor.enchantments.getLevel(unbreaking)
                             }
-                            print("Unbreaking level: $level\n")
+
                             if (player.world.random.nextInt(level+1)==0) {
                                 // Damage armor
                                 armor.damage(1, player, slot)
