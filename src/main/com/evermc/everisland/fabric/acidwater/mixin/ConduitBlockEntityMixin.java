@@ -31,11 +31,15 @@ public class ConduitBlockEntityMixin {
                                              int l,
                                              int m
     ) {
-        Box box = new Box(k, l, m, k + 1, l + 1, m + 1).expand(j * 2).stretch(0.0, world.getHeight(), 0.0);
+        // only when j == 96, the conduit is fully powered
+        if (j < 96) {
+            return;
+        }
+        Box box = new Box(k, l, m, k + 1, l + 1, m + 1).expand(j).stretch(0.0, world.getHeight(), 0.0);
         List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
         if (!list.isEmpty()) {
             for (PlayerEntity playerEntity : list) {
-                if (pos.isWithinDistance(playerEntity.getBlockPos(), j * 2)) {
+                if (pos.isWithinDistance(playerEntity.getBlockPos(), j)) {
                     AcidWater.Companion.getAntiAcidBlockEffectMap().put(playerEntity, System.currentTimeMillis() + 2000);
                 }
             }
