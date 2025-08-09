@@ -16,6 +16,7 @@ import net.minecraft.fluid.FlowableFluid
 import net.minecraft.fluid.Fluids
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -105,7 +106,22 @@ class AcidWater : ModInitializer {
                 if (ticks <= 1) {
                     val antiAcidArmors = getAntiAcidArmors(player)
                     if (antiAcidArmors.isEmpty()) {
-                        player.damage(player.world.damageSources.magic(), 1.0f)
+                        // If no antiacid armor, check if player has coal in inventory
+                        val coalStack = player.inventory.main.firstOrNull { it.isOf(Items.COAL) }
+                        if (coalStack == null) {
+                            player.damage(player.world.damageSources.magic(), 1.0f)
+                        } else if (player.world.random.nextInt(24) == 0) {
+                            // If player has coal, consume one coal with 1/24 chance (12sec per coal on average)
+                            coalStack.decrement(1)
+                            if (coalStack.count <= 0) {
+                                player.inventory.removeOne(coalStack)
+                            }
+                            // Play sound for consuming coal
+                            player.world.playSound(
+                                null, player.blockPos, net.minecraft.sound.SoundEvents.ITEM_FIRECHARGE_USE,
+                                net.minecraft.sound.SoundCategory.PLAYERS, 1.0f, 1.0f
+                            )
+                        }
                     } else {
                         val n = antiAcidArmors.size
                         // This is intended: more antiacid armor, less chance to be damaged
