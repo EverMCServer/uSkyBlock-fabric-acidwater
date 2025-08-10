@@ -1,5 +1,6 @@
 package com.evermc.everisland.fabric.acidwater
 
+import eu.pb4.polymer.core.api.utils.PolymerObject
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.FluidBlock
@@ -20,17 +21,17 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.world.*
 import java.util.*
 
-abstract class AcidFluid: FlowableFluid() {
+abstract class AcidFluid: FlowableFluid(), PolymerObject {
     override fun getFlowing(): Fluid {
-        return Acid.FLOWING_ACID
+        return AcidWater.FLOWING_ACID
     }
 
     override fun getStill(): Fluid {
-        return Acid.ACID
+        return AcidWater.ACID
     }
 
     override fun getBucketItem(): Item {
-        return Acid.ACID_BUCKET
+        return AcidWater.ACID_BUCKET
     }
 
     public override fun randomDisplayTick(world: World, pos: BlockPos, state: FluidState, random: Random) {
@@ -86,11 +87,11 @@ abstract class AcidFluid: FlowableFluid() {
     }
 
     public override fun toBlockState(state: FluidState): BlockState {
-        return Acid.ACID_BLOCK.defaultState.with(FluidBlock.LEVEL, getBlockStateLevel(state)) as BlockState
+        return AcidWater.ACID_BLOCK.defaultState.with(FluidBlock.LEVEL, getBlockStateLevel(state)) as BlockState
     }
 
     override fun matchesType(fluid: Fluid): Boolean {
-        return fluid === Acid.ACID || fluid === Acid.FLOWING_ACID
+        return fluid == AcidWater.ACID || fluid == AcidWater.FLOWING_ACID
     }
 
     public override fun getLevelDecreasePerBlock(world: WorldView): Int {
@@ -108,7 +109,7 @@ abstract class AcidFluid: FlowableFluid() {
         fluid: Fluid,
         direction: Direction
     ): Boolean {
-        return direction == Direction.DOWN && !fluid.isIn(FluidTags.WATER)
+        return direction == Direction.DOWN && (fluid != AcidWater.ACID && fluid != AcidWater.FLOWING_ACID) && !fluid.isIn(FluidTags.LAVA)
     }
 
     override fun getBlastResistance(): Float {

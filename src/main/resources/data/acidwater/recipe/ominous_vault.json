@@ -1,0 +1,42 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "NSN",
+        "NBN",
+        "DDD"
+    ],
+    "key": {
+        "N": {
+            "item": "minecraft:netherite_ingot"
+        },
+        "D": {
+            "item": "minecraft:diamond"
+        },
+        "B": {
+            "item": "minecraft:shulker_box"
+        },
+        "S": {
+            "item": "minecraft:wither_skeleton_skull"
+        }
+    },
+    "result": {
+        "components": {
+          "minecraft:custom_name": "不祥宝库",
+          "minecraft:block_state":{
+            "ominous": "true"
+          },
+          "minecraft:block_entity_data":{
+            "id": "minecraft:vault",
+            "config": {
+              "loot_table":"minecraft:chests/trial_chambers/reward_ominous",
+              "key_item": {
+                "count": 1,
+                "id": "minecraft:ominous_trial_key"
+              }
+            }
+          }
+        },
+        "id": "minecraft:vault",
+        "count": 1
+    }
+}

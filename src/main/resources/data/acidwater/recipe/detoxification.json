@@ -1,0 +1,11 @@
+{
+    "type": "minecraft:smelting",
+    "ingredient": {
+        "item": "acidwater:acid_bucket"
+    },
+    "result": {
+        "id": "minecraft:water_bucket"
+    },
+    "experience": 1,
+    "cookingtime": 1000
+}

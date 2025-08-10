@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "acid",
+  "id": "acidwater",
   "version": "${version}",
 
-  "name": "Acid",
+  "name": "AcidWater",
   "description": "",
   "authors": [],
   "contact": {},
@@ -17,7 +17,7 @@
       "com.evermc.everisland.fabric.acidwater.client.AcidDataGenerator"
     ],
     "main": [
-      "com.evermc.everisland.fabric.acidwater.Acid"
+      "com.evermc.everisland.fabric.acidwater.AcidWater"
     ]
   },
 
