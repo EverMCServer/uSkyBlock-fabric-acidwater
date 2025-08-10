@@ -95,10 +95,11 @@ class AcidWater : ModInitializer {
     private fun doAcidDamageTick(server: MinecraftServer) {
         checkAcidRain(server)
 
+        val toRemove = mutableListOf<UUID>()
         dmgTick.forEach { (uuid, pair) ->
             val (ticks, inAcid) = pair
             val player = server.playerManager.getPlayer(uuid) ?: run {
-                dmgTick.remove(uuid)
+                toRemove.add(uuid)
                 return@forEach
             }
 
@@ -112,7 +113,7 @@ class AcidWater : ModInitializer {
                             player.damage(player.world.damageSources.magic(), 1.0f)
                         } else {
                             // If player has coal, consume one coal every 24 times (5 coals per minute)
-                            val count = coalCount[player.uuid];
+                            val count = coalCount[player.uuid]
                             coalCount[player.uuid] = if (count==null) 1 else count+1
                             if (coalCount[player.uuid]!! >= 24) {
                                 coalCount[player.uuid] = 0
@@ -146,9 +147,14 @@ class AcidWater : ModInitializer {
                     dmgTick[uuid] = Pair(ticks - 1, false)
                 }
             } else {
-                dmgTick.remove(uuid)
+                toRemove.add(uuid)
             }
         }
+        toRemove.forEach { uuid ->
+            dmgTick.remove(uuid)
+            coalCount.remove(uuid)
+        }
+        toRemove.clear()
     }
 
     companion object {
