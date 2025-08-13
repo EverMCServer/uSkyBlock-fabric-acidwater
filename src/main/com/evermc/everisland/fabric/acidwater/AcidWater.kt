@@ -22,9 +22,11 @@ import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.MinecraftServer
+import net.minecraft.server.world.BlockEvent
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraft.world.WorldEvents
 import java.time.Duration
 import java.time.temporal.ChronoUnit
 import java.util.*
@@ -46,6 +48,7 @@ class AcidWater : ModInitializer {
             AcidFluidBlock())
 
         ANTI_ACID = RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(namespace, "anti_acid"))
+
 
         ServerTickEvents.END_SERVER_TICK.register(::doAcidDamageTick)
         ServerTickEvents.END_SERVER_TICK.register(::doAcidSpreadTick)
@@ -112,10 +115,10 @@ class AcidWater : ModInitializer {
                         if (coalStack == null) {
                             player.damage(player.world.damageSources.magic(), 1.0f)
                         } else {
-                            // If player has coal, consume one coal every 24 times (5 coals per minute)
+                            // If player has coal, consume one coal every 60 times (2 coals per minute)
                             val count = coalCount[player.uuid]
                             coalCount[player.uuid] = if (count==null) 1 else count+1
-                            if (coalCount[player.uuid]!! >= 24) {
+                            if (coalCount[player.uuid]!! >= 60) {
                                 coalCount[player.uuid] = 0
                                 coalStack.decrement(1)
                                 if (coalStack.count <= 0) {
