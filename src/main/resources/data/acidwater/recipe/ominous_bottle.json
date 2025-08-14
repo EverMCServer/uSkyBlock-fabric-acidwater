@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:ominous_bottle"
+        }
+    ],
+    "result": {
+        "id": "minecraft:ominous_bottle",
+        "count": 1
+    }
+}

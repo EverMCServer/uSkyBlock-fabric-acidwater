@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:sculk_shrieker"
+        }
+    ],
+    "result": {
+        "id": "minecraft:sculk_shrieker",
+        "count": 1
+    }
+}
